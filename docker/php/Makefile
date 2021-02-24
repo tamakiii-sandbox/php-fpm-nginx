@@ -8,20 +8,23 @@ help:
 build: \
 	usr/local/etc/php-fpm.conf \
 	etc/php-fpm-7.3.conf \
-	etc/php-fpm.d/www.conf \
-	etc/php-fpm.d/php-fpm.conf
+	etc/php-fpm-7.3.d/www.conf \
+	etc/php-fpm-7.3.d/php-fpm.conf
 
 etc/php-fpm-7.3.conf: | etc
 	docker cp $(CONTAINER):$@ $@
 
-etc/php-fpm.d/www.conf: | etc/php-fpm.d
+etc/php-fpm-7.3.d/www.conf: | etc/php-fpm-7.3.d
 	docker cp $(CONTAINER):$@ $@
 
-etc/php-fpm.d/php-fpm.conf: | etc/php-fpm.d
+etc/php-fpm-7.3.d/php-fpm.conf: | etc/php-fpm-7.3.d
 	docker cp $(CONTAINER):$@ $@
 
 etc/php-fpm.conf: | etc
 	docker cp $(CONTAINER):$@ $@
+
+etc/php-fpm-7.3.d: | etc
+	test -d $@ || mkdir $@
 
 usr/local/etc: | usr/local
 	test -d $@ || mkdir $@
