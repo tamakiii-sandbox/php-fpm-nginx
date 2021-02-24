@@ -22,23 +22,24 @@ CMD ["php-fpm", "--nodaemonize"]
 
 FROM amazonlinux:2018.03.0.20180827
 
-RUN yum update -y && \
-    yum install -y \
+RUN yum update -y
+
+RUN yum install -y \
         php73 \
         php73-common \
         php73-cli \
         php73-fpm \
-        && \
-    yum install -y \
+
+RUN yum install -y \
         make \
         less \
         which
 
-RUN groupadd nginx && \
-    useradd -g nginx nginx
-
 RUN rm -rf /var/cache/yum/* && \
     yum clean all
+
+RUN groupadd nginx && \
+    useradd -g nginx nginx
 
 COPY ./docker/php/usr/local/etc/php-fpm.conf /etc/php-fpm.conf
 COPY ./docker/php/usr/local/etc/php-fpm.d/www.conf /etc/php-fpm.d/www.conf
