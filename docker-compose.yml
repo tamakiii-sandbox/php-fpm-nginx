@@ -15,3 +15,4 @@ services:
       - .:/web/php-fpm-nginx
     ports:
       - ${PORT_NGINX_HTTP:-80}:80
+      - ${PORT_NGINX_HTTPS:-443}:81
