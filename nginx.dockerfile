@@ -1,4 +1,5 @@
 FROM nginx:1.19.7
+# FROM amazonlinux:2018.03.0.20180827
 
 COPY ./docker/nginx/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/nginx/etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
