@@ -1,7 +1,6 @@
 .PHONY: help setup build clean
 
-DIR := ../..
-CONTAINER ?= $(shell docker-compose --project-directory=$(DIR) ps -q nginx)
+CONTAINER ?= $(shell docker-compose --project-directory=../.. ps -q nginx)
 
 help:
 	@cat $(firstword $(MAKEFILE_LIST))
@@ -12,20 +11,11 @@ build: \
 	etc/nginx/nginx.conf \
 	etc/nginx/conf.d/default.conf
 
-etc/nginx/nginx.conf: | etc/nginx
-	docker cp $(CONTAINER):/etc/nginx/nginx.conf $@
+etc/nginx/nginx.conf etc/nginx/conf.d/default.conf: | etc/nginx etc/nginx/conf.d
+	docker cp $(CONTAINER):$@ $@
 
-etc/nginx/conf.d/default.conf: | etc/nginx/conf.d
-	docker cp $(CONTAINER):/etc/nginx/conf.d/default.conf $@
-
-etc/nginx/conf.d: | etc/nginx
-	mkdir $@
-
-etc/nginx: | etc
-	mkdir $@
-
-etc:
-	mkdir $@
+etc/nginx/conf.d etc/nginx etc: | etc etc/nginx
+	test -d $@ || mkdir $@
 
 clean:
 	rm -rf etc/nginx/conf.d/default.conf
