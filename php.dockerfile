@@ -13,3 +13,7 @@ RUN apt-get update && \
         less \
         && \
     apt-get clean
+
+RUN rm -rf /usr/local/etc/php-fpm.d/www.conf.default /usr/local/etc/php-fpm.d/zz-docker.conf
+
+CMD ["php-fpm", "--nodaemonize"]
